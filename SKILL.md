@@ -1,11 +1,11 @@
 ---
 name: wowdb-wiki
-description: Answer WoW Forever questions about items, crafting recipes, spell ranks, talents, races, quests and dungeons from azeroth.wiki. Use it to find a named record, read its available values and cite its exact page in the requested language.
+description: Answer WoW Forever questions about items, crafting recipes, spell ranks, talents, races, quests and dungeons from Azeroth DB. Use it to find a named record, read its available values and cite its exact page in the requested language.
 ---
 
-# WoW Forever on azeroth.wiki
+# WoW Forever on Azeroth DB
 
-Use the public JSON responses and page links from `https://azeroth.wiki`.
+Use the public JSON responses and page links from `https://wowdb.wiki`.
 This site covers WoW Forever. Its beta level cap is 30. Other Warcraft
 editions are not interchangeable with these records.
 
@@ -14,7 +14,7 @@ editions are not interchangeable with these records.
 Read the current API instructions first:
 
 ```sh
-curl -fsS https://azeroth.wiki/llms.txt
+curl -fsS https://wowdb.wiki/llms.txt
 ```
 
 The English directory has an `entries` array. Each entry supplies its
@@ -23,19 +23,19 @@ the paths it returns. An item and its crafting recipe may share a name;
 the page path distinguishes them.
 
 ```sh
-curl -fsS https://azeroth.wiki/api/forever |
+curl -fsS https://wowdb.wiki/api/forever |
   jq '.entries[] | select(.name == "Elixir of Minor Defense")'
 ```
 
-Join a returned path to `https://azeroth.wiki`. Fetch `data` for the answer
+Join a returned path to `https://wowdb.wiki`. Fetch `data` for the answer
 and cite `page` for the reader. For example, Empty Vial's data URL is
-`https://azeroth.wiki/api/forever/items/empty-vial` and its page is
-`https://azeroth.wiki/forever/items/empty-vial`.
+`https://wowdb.wiki/api/forever/items/empty-vial` and its page is
+`https://wowdb.wiki/forever/items/empty-vial`.
 
 For broader name matching, read the search index:
 
 ```sh
-curl -fsS https://azeroth.wiki/api/forever/search |
+curl -fsS https://wowdb.wiki/api/forever/search |
   jq '.rows | to_entries[] | .key as $kind | .value[] |
       select(.[1] | ascii_downcase | contains("fireball")) |
       {kind: $kind, name: .[1], page: .[2], facts: .[7]}'
@@ -80,7 +80,7 @@ To answer what one Elixir of Minor Defense requires, follow its directory
 entry and inspect its materials and output:
 
 ```sh
-curl -fsS https://azeroth.wiki/api/forever/professions/alchemy/elixir-of-minor-defense |
+curl -fsS https://wowdb.wiki/api/forever/professions/alchemy/elixir-of-minor-defense |
   jq '.data.recipes[] |
       {name, professionName, quantity, result: .result.name,
        materials: [.materials[] | {name: .item.name, count}],
@@ -88,43 +88,43 @@ curl -fsS https://azeroth.wiki/api/forever/professions/alchemy/elixir-of-minor-d
 ```
 
 Check the answer against the linked recipe page and cite
-`https://azeroth.wiki/forever/professions/alchemy/elixir-of-minor-defense`.
+`https://wowdb.wiki/forever/professions/alchemy/elixir-of-minor-defense`.
 
 ### Ability question
 
 To answer Fireball rank 1's requirement and effect, read that rank directly:
 
 ```sh
-curl -fsS https://azeroth.wiki/api/forever/abilities/mage/fire-fireball-group |
+curl -fsS https://wowdb.wiki/api/forever/abilities/mage/fire-fireball-group |
   jq '.data.ranks[] | select(.rank == 1) | {rank, level, text, lines}'
 ```
 
 Check the values against the spellbook page and cite
-`https://azeroth.wiki/forever/abilities/mage/fire-fireball-group`.
+`https://wowdb.wiki/forever/abilities/mage/fire-fireball-group`.
 
 ## Other languages
 
 Use the client's locale codes. English is `enUS`; the other published codes
 are `deDE`, `esES`, `esMX`, `frFR`, `koKR`, `ptBR`, `ruRU`, `zhCN` and `zhTW`.
 For a non-English language fetch
-`https://azeroth.wiki/api/forever/search/{locale}` with that exact code.
+`https://wowdb.wiki/api/forever/search/{locale}` with that exact code.
 English uses the unsuffixed search endpoint above.
 
 ```sh
-curl -fsS https://azeroth.wiki/api/forever/search/deDE |
+curl -fsS https://wowdb.wiki/api/forever/search/deDE |
   jq '.rows["forever-item"][] | select(.[1] == "Leere Phiole") |
       {name: .[1], page: .[2]}'
 ```
 
 Localized record previews are at
-`https://azeroth.wiki/api/forever/entity{page}`, where `{page}` is the exact
+`https://wowdb.wiki/api/forever/entity{page}`, where `{page}` is the exact
 localized path returned by search. For example:
 
 ```sh
-curl -fsS https://azeroth.wiki/api/forever/entity/de/forever/gegenstaende/leere-phiole
+curl -fsS https://wowdb.wiki/api/forever/entity/de/forever/gegenstaende/leere-phiole
 ```
 
-Cite `https://azeroth.wiki/de/forever/gegenstaende/leere-phiole` for that
+Cite `https://wowdb.wiki/de/forever/gegenstaende/leere-phiole` for that
 response. The preview has the localized name, tooltip and available facts;
 it is not the complete English record translated into that language.
 Some field labels and linked relationship paths can remain English, and a
@@ -142,7 +142,7 @@ translate a game name or construct a localized slug yourself.
 The English directory includes collection page entries with exact data and
 page URLs. Follow them instead of downloading every entity record. Item
 collections, for example, return 48 rows per page; page 2's data is
-`https://azeroth.wiki/api/forever/items/page/2`. Choose the returned page entry
+`https://wowdb.wiki/api/forever/items/page/2`. Choose the returned page entry
 for further pages, and treat a past-last 404 as the end.
 
 When working through a search index, select a kind and inspect a slice of
