@@ -6,7 +6,7 @@ description: Answer WoW Forever questions about items, crafting recipes, spell r
 # WoW Forever on Azeroth DB
 
 Use the public JSON responses and page links from `https://wowdb.wiki`.
-This site covers WoW Forever. Its beta level cap is 30. Other Warcraft
+This site covers WoW Forever up to its level cap of 60. Other Warcraft
 editions are not interchangeable with these records.
 
 ## Find a record
@@ -65,9 +65,8 @@ similarly named item; search again.
 - Use linked recipes and their reagent counts for crafting questions.
   `data.recipes` includes `materials` and the `result` item.
 - Ability `data.ranks` gives actual rank text, requirements and tooltip lines.
-  Limit available beta ranks to `level <= 30`; a null level stays unknown.
-  Some API records retain ranks above the beta cap. Do not recommend those
-  as currently available.
+  Limit available ranks to `level <= 60`; a null level stays unknown.
+  Do not recommend a rank above the level cap as available.
 - A named talent's English API response can contain its class's `talents`.
   Select the requested talent by its slug or node identity; the class is
   context, not a replacement answer.
@@ -130,8 +129,8 @@ it is not the complete English record translated into that language.
 Some field labels and linked relationship paths can remain English, and a
 `more` value means the preview omitted further rows. Localized guide bodies
 are not available through this record API. A localized ability preview can
-describe its highest rank above 30; use the full English ability data for
-beta-rank values and disclose the language of the answer.
+describe its highest rank above 60; use the full English ability data for
+rank values and disclose the language of the answer.
 
 The English directory and named-record API ignore `?locale=deDE`. Do not
 add a locale query and describe its English response as German. Never
