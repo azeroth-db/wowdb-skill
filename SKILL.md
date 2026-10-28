@@ -56,6 +56,10 @@ directly. Follow a redirect to the same record and cite its final identity.
 A 404 is a missing record, not a reason to substitute the home page or a
 similarly named item; search again.
 
+Request only the records needed; do not bulk crawl. On HTTP 429, stop and
+report the rate limit. Honor any `Retry-After` header before a later request;
+do not guess a delay or enter an automatic retry loop.
+
 - Read the fields that answer the question. Keep item level distinct from
   required character level and recipe skill floor distinct from learnability.
 - Report null or absent values as unknown. An empty list does not prove that
